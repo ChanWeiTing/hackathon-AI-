@@ -1,0 +1,10 @@
+from bardapi import Bard
+
+import os
+#g.a000gAh07wxKTy4VyP-ZHjyR09Ysvyxnye88hXaIJCqvPSU6Yf5HfD2tsoyQ7rz6uQFgdWukTQACgYKAc4SAQASFQHGX2Mi6fvLn4I40Fw4puBNC06jRxoVAUF8yKovEJ_JAfN6eNIi8j_6kLdN0076.
+
+os.environ["_BARD_API_KEY"] = "g.a000gAh07wxKTy4VyP-ZHjyR09Ysvyxnye88hXaIJCqvPSU6Yf5HfD2tsoyQ7rz6uQFgdWukTQACgYKAc4SAQASFQHGX2Mi6fvLn4I40Fw4puBNC06jRxoVAUF8yKovEJ_JAfN6eNIi8j_6kLdN0076"
+
+message = input("Enter your Prompt")
+
+print(Bard().get_answer(str(message)))

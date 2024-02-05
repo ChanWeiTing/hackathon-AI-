@@ -1,0 +1,106 @@
+import requests
+from PIL import Image
+from io import BytesIO
+import testing
+import image_creation
+
+TOKEN: Final = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
+BOT_USERNAME: Final = "@imaged_bot"
+image = False
+
+#Commands
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Welcome")
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("help provided")
+
+async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("custom provided")
+
+async def create_image_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    global image
+    image = True
+    await update.message.reply_text("Please input the prompt for your image creation")
+
+# Responses
+
+def handle_response(text: str) -> str:
+    processed = text.lower()
+    print("User input:" ,processed)
+    if "hello" in processed:
+        return "please go and bathe"
+    if "/create_image" in processed:
+        return "/create_image"
+    message = testing.chatbot(text)
+    return message
+
+
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    global image
+    message_type: str = update.message.chat.type
+    text: str = update.message.text
+    if image:
+        image = False
+        print("Sending the user the photo")
+        png_image = image_creation.create_image(text)
+        await update.message.reply_photo(png_image, caption="Your request")
+        return
+
+    if message_type == 'group':
+        if BOT_USERNAME in text:
+            new_text: str = text.replace(BOT_USERNAME, '').strip()
+            response: str = handle_response(new_text)
+        else:
+            return
+    else:
+        chat_id = update.effective_chat.id
+        await context.bot.send_chat_action(chat_id=chat_id, action=constants.ChatAction.TYPING)
+        response: str = handle_response(text)
+        if response == "/create_image":
+            image = True
+            return
+
+    print("By user:", update.message.from_user)
+
+    await update.message.reply_text(response)
+
+async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print(f'Update {update} caused error {context.error}')
+
+def convert_to_png(image_url):
+    # Download the image from the URL
+    response = requests.get(image_url)
+    response.raise_for_status()  # Raise an error if the request fails
+
+    # Open the downloaded image using Pillow
+    image = Image.open(BytesIO(response.content))
+
+    # Convert the image to PNG format
+    if image.format != "PNG":
+        png_image = BytesIO()
+        image.save(png_image, format="PNG")
+        png_image.seek(0)  # Reset the file pointer to the beginning
+        return png_image
+    else:
+        return response.content
+
+if __name__ == '__main__':
+    print("Starting bot...")
+    app = Application.builder().token(TOKEN).build()
+
+    #commands
+    app.add_handler(CommandHandler('start', start_command))
+    app.add_handler(CommandHandler('help', help_command))
+    app.add_handler(CommandHandler('custom', custom_command))
+    app.add_handler(CommandHandler('create_image', create_image_command))
+
+    #Messages
+    app.add_handler(MessageHandler(filters.TEXT, handle_message))
+
+    #Error
+    app.add_error_handler(error)
+
+    #Polls the bot
+    print('Polling')
+    app.run_polling(poll_interval=1)

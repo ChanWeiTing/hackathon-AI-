@@ -3,6 +3,9 @@ from PIL import Image
 from io import BytesIO
 import testing
 import image_creation
+from telegram import Update, constants
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from typing import Final
 
 TOKEN: Final = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
 BOT_USERNAME: Final = "@imaged_bot"

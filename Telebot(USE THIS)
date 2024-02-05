@@ -7,9 +7,10 @@ from typing import Final
 import bardAPIcode
 import image_creation
 
+image_list = []
 
-TOKEN: Final = "Telebot_API" #add telebot api here
-BOT_USERNAME: Final = "@imaged_bot"
+TOKEN = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
+BOT_USERNAME = "@imaged_bot"
 image = False
 
 #Commands
@@ -31,29 +32,39 @@ async def create_image_command(update: Update, context: ContextTypes.DEFAULT_TYP
 
 def handle_response(text: str) -> str:
     processed = text.lower()
-    print("User input:" ,processed)
+    print("User input:", processed)
     if "hello" in processed:
         return "please go and bathe"
     if "/create_image" in processed:
         return "/create_image"
-    message = testing.chatbot(text)
+    message = testing.chatbot(processed)
     return message
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global image
+    global image_list
     message_type: str = update.message.chat.type
-    text: str = update.message.text
+    text: str = update.message.text.lower()
     if image:
         if "quit" in text:
+            print("User has terminated the program")
             image = False
             await update.message.reply_text("Thanks for using our image creation")
+            image_list.pop()
+            return
+        elif "vary" in text:
+            print("Sending variation")
+            png_image1 = image_creation.create_variation(convert_to_png(image_list[0]))
+            await update.message.reply_photo(png_image1, caption="Your variation")
+            await update.message.reply_text("Type 'vary' if you want another variation, or type a new prompt to generate a new image. Type quit once done.")
             return
         else:
             print("Sending the user the photo")
             png_image = image_creation.create_image(text)
+            image_list.insert(0, png_image)
             await update.message.reply_photo(png_image, caption="Your request")
-            await update.message.reply_text("Please continue prompting if you are unsatisfied with the image. Type quit once done")
+            await update.message.reply_text("Type 'vary' if you want a variation, or type a new prompt to generate a new image. Type quit once done.")
             return
 
     if message_type == 'group':

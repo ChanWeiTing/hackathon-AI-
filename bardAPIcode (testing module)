@@ -5,12 +5,12 @@ from bardapi.constants import SESSION_HEADERS
 #g.a000gAh07wxKTy4VyP-ZHjyR09Ysvyxnye88hXaIJCqvPSU6Yf5HfD2tsoyQ7rz6uQFgdWukTQACgYKAc4SAQASFQHGX2Mi6fvLn4I40Fw4puBNC06jRxoVAUF8yKovEJ_JAfN6eNIi8j_6kLdN0076.
 
 
-token = "g.a000gAhsgVPr3ESczstUSfWwfkMSNsnhin5FDODzJjnYOxE0F0DeeEdB9cWyiFQDc1f2IfbumwACgYKAYMSAQASFQHGX2MiufvXJUWv707rVNMyVaImvhoVAUF8yKqP2SWlRw6JkSu8c9S7sVDn0076"
+token = "Bard__Secure-1PSID_token" #enter __Secure-1PSID token here
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token)
-session.cookies.set("__Secure-1PSIDTS", "sidts-CjIBPVxjSv_fofW_l0ifrJzjmRXTh8BhPF9H_WarTkkbwPE2JpzsA6TDOTiV2mihX8ltvhAA")
-session.cookies.set("__Secure-1PSIDCC", "ABTWhQH5vzCfBl3S3cMu_jJ4YWw8e9ty6gUQvJ4wHAN-2gtREhlUkuXfchDzab4JBoKI3kDl")
+session.cookies.set("__Secure-1PSIDTS", "__Secure-1PSIDTS_token") #enter __Secure-1PSIDTS token here
+session.cookies.set("__Secure-1PSIDCC", "__Secure-1PSIDCC_token") #enter __Secure-1PSIDCC token here
 
 bard = Bard(token= token, session=session)
 

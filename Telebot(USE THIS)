@@ -3,22 +3,23 @@ from PIL import Image
 from io import BytesIO
 from telegram import Update, constants
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from typing import Final
-import bardAPIcode
+import testing
 import image_creation
 
 image_list = []
 
-TOKEN = "token" #insert key here
+TOKEN = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
 BOT_USERNAME = "@imaged_bot"
 image = False
 
 #Commands
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Welcome")
+    await update.message.reply_text("Welcome to our image creation chat bot. ")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("help provided")
+    await update.message.reply_text("""
+    /Create_image - Input prompts to generate an image. Follow the instructions to create more images or variations""")
+
 
 async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("custom provided")
@@ -46,6 +47,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global image_list
     message_type: str = update.message.chat.type
     text: str = update.message.text.lower()
+    # If user indicated create_image function
     if image:
         if "quit" in text:
             print("User has terminated the program")
@@ -55,15 +57,23 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         elif "vary" in text:
             print("Sending variation")
+            chat_id = update.effective_chat.id
+            await context.bot.send_chat_action(chat_id=chat_id, action=constants.ChatAction.UPLOAD_PHOTO)
             png_image1 = image_creation.create_variation(convert_to_png(image_list[0]))
             await update.message.reply_photo(png_image1, caption="Your variation")
             await update.message.reply_text("Type 'vary' if you want another variation, or type a new prompt to generate a new image. Type quit once done.")
             return
         else:
             print("Sending the user the photo")
+            chat_id = update.effective_chat.id
+            await context.bot.send_chat_action(chat_id=chat_id, action=constants.ChatAction.UPLOAD_PHOTO)
             png_image = image_creation.create_image(text)
+            if png_image == None:
+                await update.message.reply_text("Your prompt is invalid due to inappropriate text. Please enter a new prompt")
+                return
             image_list.insert(0, png_image)
             await update.message.reply_photo(png_image, caption="Your request")
+            await context.bot.send_chat_action(chat_id=chat_id, action=constants.ChatAction.TYPING)
             response = "Suggest multiple prompts to generate image of " + text + "."
             suggestion = handle_response(response)
             await update.message.reply_text(suggestion)
@@ -125,5 +135,5 @@ if __name__ == '__main__':
     app.add_error_handler(error)
 
     #Polls the bot
-    print('Polling')
+    print('Polling...')
     app.run_polling(poll_interval=1)

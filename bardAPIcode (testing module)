@@ -2,7 +2,7 @@ from bardapi import Bard
 import os
 import requests
 from bardapi.constants import SESSION_HEADERS
-#g.a000gAh07wxKTy4VyP-ZHjyR09Ysvyxnye88hXaIJCqvPSU6Yf5HfD2tsoyQ7rz6uQFgdWukTQACgYKAc4SAQASFQHGX2Mi6fvLn4I40Fw4puBNC06jRxoVAUF8yKovEJ_JAfN6eNIi8j_6kLdN0076.
+
 
 
 token = "Bard__Secure-1PSID_token" #enter __Secure-1PSID token here

@@ -1,11 +1,12 @@
 import requests
 from PIL import Image
 from io import BytesIO
-import testing
-import image_creation
 from telegram import Update, constants
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from typing import Final
+import testing
+import image_creation
+
 
 TOKEN: Final = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
 BOT_USERNAME: Final = "@imaged_bot"
@@ -44,11 +45,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
     if image:
-        image = False
-        print("Sending the user the photo")
-        png_image = image_creation.create_image(text)
-        await update.message.reply_photo(png_image, caption="Your request")
-        return
+        if "quit" in text:
+            image = False
+            await update.message.reply_text("Thanks for using our image creation")
+            return
+        else:
+            print("Sending the user the photo")
+            png_image = image_creation.create_image(text)
+            await update.message.reply_photo(png_image, caption="Your request")
+            await update.message.reply_text("Please continue prompting if you are unsatisfied with the image. Type quit once done")
+            return
 
     if message_type == 'group':
         if BOT_USERNAME in text:

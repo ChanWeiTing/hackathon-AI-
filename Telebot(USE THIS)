@@ -4,7 +4,7 @@ from io import BytesIO
 from telegram import Update, constants
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from typing import Final
-import testing
+import bardAPIcode
 import image_creation
 
 

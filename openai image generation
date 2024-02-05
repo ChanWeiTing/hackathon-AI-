@@ -1,0 +1,17 @@
+import os
+import openai
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+from openai import OpenAI
+
+
+response = OpenAI().images.generate(
+  model="dall-e-3",
+  prompt="a small red fox",
+  size="1024x1024",
+  quality="standard",
+  n=1,
+)
+
+image_url = response.data[0].url
+print(image_url)

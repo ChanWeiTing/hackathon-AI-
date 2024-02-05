@@ -1,7 +1,7 @@
 #openai.api_key = os.getenv("OPENAI_API_KEY")
 
 import openai
-openai.api_key = "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"
+openai.api_key = "key" #enter openai api key here
 
 def create_image(prompt):
   response = openai.images.generate(

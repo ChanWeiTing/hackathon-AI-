@@ -64,6 +64,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             png_image = image_creation.create_image(text)
             image_list.insert(0, png_image)
             await update.message.reply_photo(png_image, caption="Your request")
+            response = "Suggest multiple prompts to generate image of " + text + "."
+            suggestion = handle_response(response)
+            await update.message.reply_text(suggestion)
             await update.message.reply_text("Type 'vary' if you want a variation, or type a new prompt to generate a new image. Type quit once done.")
             return
 

@@ -20,4 +20,7 @@ We are proud of intergrating the image genration category and the ai agent categ
 We learnt how to make telebots and use online api using python code
 
 ## What's next for AI assisted Visualisation
-To add more functions for the image generation such as having users give images they want to add to their image.
+To add more functions for the image generation such as having users give images they want to add to their image
+
+## Navigating the repository
+We have 3 packages to use: main code(Telebot), chatbot code(bardAPIcode), image generation oode (image_creation)

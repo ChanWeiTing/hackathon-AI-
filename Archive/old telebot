@@ -4,7 +4,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from typing import Final
 import testing
 
-TOKEN: Final = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
+TOKEN: Final = "token"
 BOT_USERNAME: Final = "@imaged_bot"
 
 #Commands

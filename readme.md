@@ -1,3 +1,6 @@
+## Navigating the repository
+We have 3 packages to use: main code(Telebot), chatbot code(bardAPIcode), image gener
+
 ## Inspiration 
 In corporate environments, frontline employees struggle to allocate ample time for discerning intricate client requirements. Time constraints hinder their ability to effectively extract and understand nuanced preferences.
 
@@ -21,6 +24,3 @@ We learnt how to make telebots and use online api using python code
 
 ## What's next for AI assisted Visualisation
 To add more functions for the image generation such as having users give images they want to add to their image
-
-## Navigating the repository
-We have 3 packages to use: main code(Telebot), chatbot code(bardAPIcode), image generation oode (image_creation)

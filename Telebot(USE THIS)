@@ -8,7 +8,7 @@ import image_creation
 
 image_list = []
 
-TOKEN = "6771385229:AAHSAGLwvDoFzaL6SZkq9X0kCknS0r6X1Tg"
+TOKEN = "token" #insert token here
 BOT_USERNAME = "@imaged_bot"
 image = False
 
